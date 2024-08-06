@@ -1,32 +1,23 @@
 const express = require('express');
-const ejs = require('ejs');
-
 const app = express();
+
 const PORT = 3000;
 
+//Query Parameters
+app.get('/', (req, res) =>{
 
-//setting oue view engine
-app.set('view engine', 'ejs');
-app.set('views', './views');
+    const id = req.query.id;
+    const username = req.query.username;
 
-//route controller with a path parameter
-app.get('/users/:id', (req, res) => {
-    const userId = req.params.id;
-    res.send(User with ID ${userId});
+    res.send(`User ID: ${id}. Username: ${username}`);
+
 });
 
-app.get('/', (req, res) =>{
-    
-    const data = {
-        title: 'Hello World',
-        message: 'Welcome to my website!'
-    }
-
-    res.render('index', {data});
-
+app.get (`/products/:id`, (req ,res) =>{
+const productid= req.params.id;
 });
 
 app.listen(PORT, () => {
-    console.log('Server started on port ${PORT}');
+    console.log(`Server started on port ${PORT}`);
 
 });
