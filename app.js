@@ -1,27 +1,22 @@
 const express = require('express');
 const app = express();
-const PORT = 3000;
+require('dotenv').config();
 
+const PORT = process.env.PORT || 8000;
+
+
+//serving static files
 app.use(express.static('public'));
 
-//middleware
-app.use((req, res, next) => {
-console.log('Request received: ${req.method} ${req.url}');
-next();
+//setup our views
+app.set('view engine','ejs');
+app.set('views','./views');
+
+//router handler
+app.get('/', (req, res) => {
+ res.render('home');
 });
 
-
-//router controller
-app.get('/', (req, res, next) =>{
-try{
-res.send('Everything is okay!').status(200);
-//throw new error('Something has gone wrong!');
-}
-catch(error){
- next(error);
-}
-});
-
-app.listen(3000, () => {
-console.log(`Server started on port ${PORT}`);
+app.listen(process.env.PORT, () => {
+ console.log(`Server started on port ${PORT}`);
 });
