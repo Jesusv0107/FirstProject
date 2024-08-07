@@ -1,30 +1,27 @@
 const express = require('express');
 const app = express();
-
 const PORT = 3000;
 
-//Query Parameters
-app.get('/', (req, res) =>{
+app.use(express.static('public'));
 
-    const id = req.query.id;
-    const username = req.query.username;
-
-    res.send(`User ID: ${id}. Username: ${username}`);
-
+//middleware
+app.use((req, res, next) => {
+console.log('Request received: ${req.method} ${req.url}');
+next();
 });
 
-app.get (`/products/:id`, (req, res) =>{
-const productId= req.params.id;
-const products = [
-    {"id": 1, "name" : "Product A" },
-    {"id": 2, "name" : "Product B" },
-    {"id": 3, "name" : "Product C" },
-]
-const product = products.find(product => product.id == parseInt(productId));
-res.send(`Product id: ${product.id}. Product Name: ${product.name}`);
+
+//router controller
+app.get('/', (req, res, next) =>{
+try{
+res.send('Everything is okay!').status(200);
+//throw new error('Something has gone wrong!');
+}
+catch(error){
+ next(error);
+}
 });
 
-app.listen(PORT, () => {
-    console.log(`Server started on port ${PORT}`);
-
+app.listen(3000, () => {
+console.log(`Server started on port ${PORT}`);
 });
